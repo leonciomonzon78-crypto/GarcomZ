@@ -2,7 +2,7 @@ import pygame
 from pygame import Surface, Rect
 from pygame.ftfont import Font
 
-from code.Const import WIN_WIDTH, WIN_HEIGHT
+from code.Const import WIN_WIDTH, WIN_HEIGHT, C_YELLOW, C_WHITE, MENU_OPTION
 
 
 class Menu:
@@ -19,19 +19,20 @@ class Menu:
         while True:
 
             self.window.blit(source=self.surf, dest=self.rect)
-            self.menu_text(
-                text_size=130,
-                text="COMEÇAR",
-                text_color=(247, 201, 0),
-                text_center_pos=(WIN_WIDTH // 2, 550)
-            )
+            self.menu_text(text_size=130,text="COMEÇAR",text_color=C_YELLOW,text_center_pos=(WIN_WIDTH // 2, 550))
             pygame.display.flip()
 
             # check all event
             for event in pygame.event.get():
-                 if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT:
                     pygame.quit() #close screen
                     quit() #end pygame
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        return MENU_OPTION[0]
+
+
+
 
 
     # def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple) -> None:
