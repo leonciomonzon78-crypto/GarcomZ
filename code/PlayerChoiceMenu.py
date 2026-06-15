@@ -52,10 +52,11 @@ class PlayerChoiceMenu:
                         else:
                             self.index_selecionado = len(MENU_PLAYER)-1
 
+                        print(self.index_selecionado)
+
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
-                            print(MENU_OPTION[2])
-                            return MENU_OPTION[2]
+                            return MENU_OPTION[2],self.index_selecionado
 
 
             pygame.display.flip()

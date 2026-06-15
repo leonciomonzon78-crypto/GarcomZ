@@ -20,16 +20,19 @@ class Game:
             menu_return = menu.run()
 
 
-            #menu_player = PlayerChoiceMenu(self.window)
-            #play_return = menu_player.run()
-
-
             if menu_return == MENU_OPTION[0]:
                 menuPlayer = PlayerChoiceMenu(self.window)
-                play_return = menuPlayer.run()
-                if play_return == MENU_OPTION[2]:
-                    level = Level(self.window)
-                    level.run()
+                player_return,jogador_escolhido  = menuPlayer.run()
+
+
+                if player_return == MENU_OPTION[2]:
+                    level1 = Level(self.window, jogador_escolhido)
+                    level1.run()
+
+
+
+
+
 
 
 
