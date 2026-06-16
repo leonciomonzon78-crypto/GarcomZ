@@ -6,7 +6,7 @@ from code.Const import MENU_PLAYER, WIN_HEIGHT, IMA_SEP_MEA, MENU_OPTION
 class PlayerChoiceMenu:
     def __init__(self,window):
         self.window = window
-        self.fundo = pygame.image.load('./asset/MenuEscolha.png')
+        self.fundo = pygame.image.load('./asset/MenuEscolha.png').convert_alpha()
         self.fundo_rect = self.fundo.get_rect(left=0, top=0)
         self.index_selecionado = 0
 
@@ -18,7 +18,7 @@ class PlayerChoiceMenu:
             self.window.blit(source=self.fundo,dest=self.fundo_rect)
 
             for i in range(len(MENU_PLAYER)):
-                imagen_jogador = pygame.image.load(MENU_PLAYER[i]).convert_alpha()
+                imagen_jogador = pygame.image.load('./asset/'+MENU_PLAYER[i]+'.png').convert_alpha()
 
                 if i == self.index_selecionado:
                     imagen_jogador = pygame.transform.scale(imagen_jogador, (int(imagen_jogador.get_width() * 1.5),

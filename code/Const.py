@@ -11,9 +11,9 @@ MENU_OPTION = ('COMEÇAR',
                'JOGAR')
 
 #P
-MENU_PLAYER =('./asset/JogadorA.png',
-              './asset/ChefZumbi1a.png',
-              './asset/Zumbi1a.png',
+MENU_PLAYER =('JogadorA',
+              'ChefZumbi1a',
+              'Zumbi1a',
               )
 
 #W
