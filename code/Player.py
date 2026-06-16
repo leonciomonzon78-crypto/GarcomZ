@@ -1,13 +1,16 @@
 import pygame.key
 
-from code.Const import WIN_WIDTH, MOVE_PLAYER, ENTITY_SPEED
+from code.Const import WIN_WIDTH, MOVE_PLAYER, ENTITY_SPEED, PLAYER_KEY_SHOOT, ENTITY_SHOT_DELAY
 from code.Entity import Entity
+from code.PlayerShot import PlayerShot
 
 
 class Player(Entity):
 
     def __init__(self,name:str,position:tuple,ani_index:int):
         super().__init__(name,position,1)
+        self.index= str(ani_index)
+        self.shot_delay = ENTITY_SHOT_DELAY[self.name]
         #ANIMAÇÃO
 
         self.animation_frames=[]
@@ -30,6 +33,9 @@ class Player(Entity):
         self.floor_y = position[1]
 
         self.entity_speed = ENTITY_SPEED[name]
+        self.health = 100
+
+
 
 
     def move(self,):
@@ -71,3 +77,17 @@ class Player(Entity):
                 self.rect.top = self.floor_y  # Garante que ele não passe do chão
                 self.is_jumping = False  # Permite que ele pule de novo
                 self.v_speed = 0  # Zera a velocidade vertical
+
+
+    def shoot(self):
+
+        self.shot_delay -= 1
+
+        if self.shot_delay ==0:
+            self.shot_delay = ENTITY_SHOT_DELAY[self.name]
+            pressed_key = pygame.key.get_pressed()
+            if pressed_key[PLAYER_KEY_SHOOT[self.name + self.index]]:
+                return PlayerShot(name='TiroDejogador', position=(self.rect.centerx, self.rect.centery-20), ani_index=0)
+
+
+        return None

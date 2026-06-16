@@ -5,8 +5,11 @@ from pygame import Surface, Rect
 from pygame.ftfont import Font
 
 from code.Const import C_WHITE, WIN_HEIGHT, MENU_PLAYER, EVENT_ENEMY, SPAWN_TIME
+from code.Enemy import Enemy
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
+from code.EntityMediator import EntityMediator
+from code.Player import Player
 
 
 class Level:
@@ -27,11 +30,20 @@ class Level:
         while True:
             clock.tick(60)
             self.window.blit(source=self.surf,dest= self.rect)
-            for entity in self.entity_list:
-                entity.move()
-                self.window.blit(source=entity.surf, dest=entity.rect)#jogador
+            novos_tiros = []
 
+            for ent in self.entity_list:
+                #self.window.blit(source=ent.surf, dest=ent.rect)
+                ent.move()
+                if isinstance(ent,(Player,Enemy)):
+                    shoot = ent.shoot()
+                    if shoot is not None:
+                        novos_tiros.append(shoot)
 
+                self.window.blit(source=ent.surf, dest=ent.rect)  # jogador
+
+            if novos_tiros:
+                self.entity_list.extend(novos_tiros)
 
             # check all event
             for event in pygame.event.get():
@@ -45,6 +57,8 @@ class Level:
 
 
             pygame.display.flip()
+            EntityMediator.verify_collision(entity_list=self.entity_list)#chama o EntityMediator (verify_collision)
+            EntityMediator.verify_health(entity_list=self.entity_list)
 
 
 

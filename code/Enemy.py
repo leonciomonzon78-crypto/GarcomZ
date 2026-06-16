@@ -2,7 +2,8 @@ import random
 
 import pygame
 
-from code.Const import ENTITY_SPEED, WIN_WIDTH
+from code.Const import ENTITY_SPEED, WIN_WIDTH, ENTITY_SHOT_DELAY
+from code.EnemyShot import EnemyShot
 from code.Entity import Entity
 
 
@@ -11,6 +12,7 @@ class Enemy(Entity):
         super().__init__(name, position, ani_index)
         self.ani_index = str(ani_index)
         self.entity_speed = ENTITY_SPEED[self.name]
+        self.shot_delay = ENTITY_SHOT_DELAY[self.name]
         self.can_jump = can_jump
         #sistema de animação de pés
         self.animation_frames = []
@@ -27,24 +29,10 @@ class Enemy(Entity):
         self.v_speed = 0
         self.gravity = 1
         self.floor_y = position[1] #guarda a linha do chão
+        self.health = 10
 
     def move(self):
         self.rect.centerx -= self.entity_speed #movimento do enemies de direita a esquerda
-
-        # if not self.is_jumping:
-        #     self.current_frame += self.animation_speed
-        #
-        #     # Se o contador passar do número de imagens (2), volta para o zero
-        #     if self.current_frame >= len(self.animation_frames):
-        #         self.current_frame = 0
-        #
-        #     # Atualiza a imagem atual do inimigo (o "surf")
-        #     self.surf = self.animation_frames[int(self.current_frame)]
-        #     self.image =  self.surf
-        # else:
-        #     # Opcional: Se estiver pulando, fixa na imagem 1 (pés no ar)
-        #     self.surf = self.animation_frames[0]
-        #     self.image =self.surf
 
         #logica de sorteio de pulo
         if self.can_jump and not self.is_jumping:#o sorteio do pulo só acontece se o enemy tiver a permissão can_jump
@@ -60,7 +48,11 @@ class Enemy(Entity):
                 self.is_jumping = False
                 self.v_speed = 0
 
+    def shoot(self):
+        self.shot_delay -= 1
+        if self.shot_delay == 0:
+            self.shot_delay = ENTITY_SHOT_DELAY[self.name]
+            return EnemyShot(name='XicaraDeFogo', position=(self.rect.centerx, self.rect.centery-10), ani_index=0)
 
 
-        if self.rect.right <=0:
-            self.rect.left = WIN_WIDTH
+
