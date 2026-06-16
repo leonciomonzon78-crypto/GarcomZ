@@ -1,8 +1,10 @@
+import random
+
 import pygame
 from pygame import Surface, Rect
 from pygame.ftfont import Font
 
-from code.Const import C_WHITE, WIN_HEIGHT, MENU_PLAYER
+from code.Const import C_WHITE, WIN_HEIGHT, MENU_PLAYER, EVENT_ENEMY, SPAWN_TIME
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 
@@ -17,7 +19,7 @@ class Level:
         self.entity_list.append(EntityFactory.get_entity(MENU_PLAYER[self.jogador]))
         #self.name = name
         self.timeout = 20000
-        print(self.jogador)
+        pygame.time.set_timer(EVENT_ENEMY,SPAWN_TIME)
 
 
     def run(self):
@@ -35,7 +37,12 @@ class Level:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()  # close screen
-                    quit()  # end pygame
+                    quit() # end pygame
+
+                if event.type == EVENT_ENEMY:
+                    choice = random.choice(('enemyA1', 'enemyB1'))
+                    self.entity_list.append(EntityFactory.get_entity(choice))
+
 
             pygame.display.flip()
 
