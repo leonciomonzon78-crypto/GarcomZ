@@ -33,7 +33,6 @@ class Level:
             novos_tiros = []
 
             for ent in self.entity_list:
-                #self.window.blit(source=ent.surf, dest=ent.rect)
                 ent.move()
                 if isinstance(ent,(Player,Enemy)):
                     shoot = ent.shoot()
@@ -52,7 +51,7 @@ class Level:
                     quit() # end pygame
 
                 if event.type == EVENT_ENEMY:
-                    choice = random.choice(('enemyA1', 'enemyB1'))
+                    choice = random.choice(('enemyA1', 'enemyB1','vitima0'))
                     self.entity_list.append(EntityFactory.get_entity(choice))
 
 

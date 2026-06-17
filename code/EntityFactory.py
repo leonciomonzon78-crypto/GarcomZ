@@ -4,6 +4,7 @@ from operator import index
 from code.Const import WIN_HEIGHT, WIN_WIDTH
 from code.Enemy import Enemy
 from code.Player import Player
+from code.Vitima import Vitima
 
 
 class EntityFactory:
@@ -22,4 +23,6 @@ class EntityFactory:
                 return Enemy('enemyA', (WIN_WIDTH-50, WIN_HEIGHT - 122),1,can_jump=chance_de_pular)
             case 'enemyB1':
                 return Enemy('enemyB', (WIN_WIDTH-50, WIN_HEIGHT - 122), 1)
+            case 'vitima0':
+                return Vitima('vitima', (WIN_WIDTH - 50, WIN_HEIGHT - 122), 0)
 

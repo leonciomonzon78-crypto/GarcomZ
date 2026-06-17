@@ -5,17 +5,28 @@ C_YELLOW = (247, 201, 0)
 C_WHITE = (255, 255, 255)
 
 #E
+ENTITY_DAMAGE={'jogadorA':1,
+               'TiroDejogador':25,
+               'enemyA':1,
+               'XicaraDeFogo':20,
+               'enemyB':1,
+               'XicaraDeFogo':20,
+               'vitima':1,
+               }
+
 ENTITY_SPEED={  'jogadorA' : 6,
                 'enemyA': 2,
                 'enemyB': 3,
                 'TiroDejogador': 9,
-                'XicaraDeFogo':6
+                'XicaraDeFogo':6,
+                'vitima':3,
 
               }
 
 ENTITY_HEALTH = {
     'enemyA':50,
     'enemyB':60,
+    'vitima0':1,
 }
 
 ENTITY_SHOT_DELAY={'jogadorA':20,
