@@ -15,21 +15,21 @@ ENTITY_DAMAGE={'jogadorA':1,
                }
 
 ENTITY_SPEED={  'jogadorA' : 6,
-                'enemyA': 2,
-                'enemyB': 3,
+                'enemyA': 3,
+                'enemyB': 4,
                 'TiroDejogador': 9,
                 'XicaraDeFogo':6,
-                'vitima':3,
-
+                'vitima':2,
               }
 
 ENTITY_HEALTH = {
-    'enemyA':50,
-    'enemyB':60,
-    'vitima0':1,
+    'jogadorA':300,
+    'enemyA':100,
+    'enemyB':50,
+    'vitima':1,
 }
 
-ENTITY_SHOT_DELAY={'jogadorA':20,
+ENTITY_SHOT_DELAY={'jogadorA':10,
                    'enemyA':100,
                    'enemyB':80,
                    }

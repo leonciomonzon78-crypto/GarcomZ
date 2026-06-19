@@ -1,6 +1,6 @@
 import pygame.key
 
-from code.Const import WIN_WIDTH, MOVE_PLAYER, ENTITY_SPEED, PLAYER_KEY_SHOOT, ENTITY_SHOT_DELAY
+from code.Const import WIN_WIDTH, MOVE_PLAYER, ENTITY_SPEED, PLAYER_KEY_SHOOT, ENTITY_SHOT_DELAY, ENTITY_HEALTH
 from code.Entity import Entity
 from code.PlayerShot import PlayerShot
 
@@ -33,7 +33,10 @@ class Player(Entity):
         self.floor_y = position[1]
 
         self.entity_speed = ENTITY_SPEED[name]
-        self.health = 100
+        self.health = ENTITY_HEALTH[name]
+        self.damaged_timer = 0  #guarda o momento do dano
+        self.is_blinking = False #diz se o jogador está no estado de brilho
+        self.blink_duration = 2000  #duração do brilho em milissegundo
 
 
 
@@ -91,3 +94,22 @@ class Player(Entity):
 
 
         return None
+
+# essa logica é do chatgpt
+    def update(self):
+        current_time = pygame.time.get_ticks()
+
+        # Verifica se o tempo de 2 segundos já acabou
+        if self.is_blinking:
+            if current_time - self.damaged_timer > self.blink_duration:
+                self.is_blinking = False
+                self.surf.set_alpha(255)  # Volta a opacidade normal
+            else:
+                # O segredo está aqui: forçar o set_alpha a cada frame no sprite atualizado
+                if (current_time // 100) % 2 == 0:
+                    self.surf.set_alpha(60)  # Deixei um pouco mais transparente para destacar
+                else:
+                    self.surf.set_alpha(255)
+        else:
+            # Garante que se não estiver piscando, a opacidade permaneça padrão
+            self.surf.set_alpha(255)

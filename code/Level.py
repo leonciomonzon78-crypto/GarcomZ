@@ -20,7 +20,6 @@ class Level:
         self.jogador = jogador_escolhido#indice do jogador
         self.entity_list:list[Entity]=[]
         self.entity_list.append(EntityFactory.get_entity(MENU_PLAYER[self.jogador]))
-        #self.name = name
         self.timeout = 20000
         pygame.time.set_timer(EVENT_ENEMY,SPAWN_TIME)
 
@@ -43,6 +42,13 @@ class Level:
 
             if novos_tiros:
                 self.entity_list.extend(novos_tiros)
+
+            for ent in self.entity_list:
+                if isinstance(ent, Player):
+                    ent.update()  # <--- ADICIONADO: Agora o Player atualiza o brilho!
+
+                # O desenho (blit) DEVE acontecer depois que o brilho e as colisões foram processados
+                self.window.blit(source=ent.surf, dest=ent.rect)
 
             # check all event
             for event in pygame.event.get():

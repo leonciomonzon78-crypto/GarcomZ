@@ -2,7 +2,7 @@ import random
 
 import pygame
 
-from code.Const import ENTITY_SPEED, WIN_WIDTH, ENTITY_SHOT_DELAY
+from code.Const import ENTITY_SPEED, WIN_WIDTH, ENTITY_SHOT_DELAY, ENTITY_HEALTH
 from code.EnemyShot import EnemyShot
 from code.Entity import Entity
 
@@ -29,7 +29,7 @@ class Enemy(Entity):
         self.v_speed = 0
         self.gravity = 1
         self.floor_y = position[1] #guarda a linha do chão
-        self.health = 10
+        self.health = ENTITY_HEALTH[name]
 
     def move(self):
         self.rect.centerx -= self.entity_speed #movimento do enemies de direita a esquerda
