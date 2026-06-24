@@ -4,12 +4,14 @@ import pygame
 from pygame import Surface, Rect
 from pygame.ftfont import Font
 
-from code.Const import C_WHITE, WIN_HEIGHT, MENU_PLAYER, EVENT_ENEMY, SPAWN_TIME, WIN_WIDTH
+from code.Const import C_WHITE, WIN_HEIGHT, MENU_PLAYER, EVENT_ENEMY, SPAWN_TIME, WIN_WIDTH, EVENT_TIMEOUT, \
+    TIMEOUT_STEP, TIMEOUT_LEVEL
 from code.Enemy import Enemy
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from code.EntityMediator import EntityMediator
 from code.Player import Player
+
 
 
 class Level:
@@ -20,17 +22,45 @@ class Level:
         self.jogador = jogador_escolhido  # indice do jogador
         self.entity_list: list[Entity] = []
         self.entity_list.append(EntityFactory.get_entity(MENU_PLAYER[self.jogador]))
-        self.timeout = 20000
+        self.timeout = TIMEOUT_LEVEL
         self.vitimas_mortas = 0
+        self.vitimas_salvas =0
         pygame.time.set_timer(EVENT_ENEMY, SPAWN_TIME)
+        pygame.time.set_timer(EVENT_TIMEOUT,TIMEOUT_STEP)
 
     def run(self):
         clock = pygame.time.Clock()
+
         while True:
             clock.tick(60)
             if self.vitimas_mortas >=3:
                 self.window.blit(source=self.surf, dest=self.rect)
-                self.level_text(200, 'YOU LOSE !!', C_WHITE, (WIN_WIDTH/2-, WIN_HEIGHT/2-100))
+                self.level_text(200, 'YOU LOSE !!', C_WHITE, (WIN_WIDTH/2-400, WIN_HEIGHT/2-100))
+                self.level_text(30, 'Você perdeu, porque mato 3 vitimas', C_WHITE, (WIN_WIDTH / 2-200 , WIN_HEIGHT / 2+100))
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        quit()
+                pygame.display.flip()
+                continue
+
+
+            if self.timeout <=0:
+
+                jogador_atual = None
+                for entidade in self.entity_list:
+                    if isinstance(entidade, Player):
+                        jogador_atual = entidade
+                        break
+
+                self.window.blit(source=self.surf, dest=self.rect)
+                self.level_text(200, 'YOU WIN !!', C_WHITE, (WIN_WIDTH / 2 -400, WIN_HEIGHT / 2 - 100))
+                self.level_text(50, f'Você rescatou {self.vitimas_salvas} clientes', C_WHITE, (WIN_WIDTH / 2 - 400, WIN_HEIGHT / 2 - 150))
+
+                if jogador_atual is not None:
+                    self.level_text(50, f'Você matou {jogador_atual.score} zumbies', C_WHITE,
+                                    (WIN_WIDTH / 2 - 400, WIN_HEIGHT / 2 - 200))
+
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
@@ -52,6 +82,10 @@ class Level:
                     choice = random.choice(('enemyA1', 'enemyB1', 'vitima0'))
                     self.entity_list.append(EntityFactory.get_entity(choice))
 
+                if event.type == EVENT_TIMEOUT:
+                    self.timeout -= TIMEOUT_STEP
+
+
             # 3. FÍSICA E COLISÕES (Calcula o dano e altera a vida/score ANTES de atualizar a tela)
             EntityMediator.verify_collision(entity_list=self.entity_list,level_ref=self)
             EntityMediator.verify_health(entity_list=self.entity_list)
@@ -72,9 +106,10 @@ class Level:
                 # Se for o jogador, atualiza o tempo de piscar e renderiza o texto do Score/Vida
                 if isinstance(ent, Player):
                     ent.update()
+                    self.level_text(28, f'Tempo do jogo:  {self.timeout / 1000 :.1f}s', C_WHITE, (10, 50))
                     self.level_text(28, f'{ent.name}:  {ent.health}', C_WHITE, (10, 100))
-                    self.level_text(28, f'Score : {ent.score}', C_WHITE, (10, 200))
-                    print(self.vitimas_mortas)
+                    self.level_text(28, f'Score : {ent.score}', C_WHITE, (10, 150))
+                    self.level_text(28,f'Vitimas Salvas :{self.vitimas_salvas}',C_WHITE, (10, 200))
                     if self.vitimas_mortas ==1:
                         self.level_text(40, f'Você mato {self.vitimas_mortas} VÍTIMA!', C_WHITE, (500, WIN_HEIGHT/2))
                     if self.vitimas_mortas == 2:

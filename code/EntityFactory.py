@@ -14,10 +14,10 @@ class EntityFactory:
         match entity_name:
             case 'JogadorA':
                 return Player('jogadorA', (10,WIN_HEIGHT-122),1)
-            case 'ChefZumbi1a':
-                return Player('ChefZumbi1a', (10, WIN_HEIGHT - 122))
-            case 'Zumbi1a':
-                return Player('Zumbi1a', (10, WIN_HEIGHT - 122))
+            case 'jogadorB':
+                return Player('jogadorB', (10, WIN_HEIGHT - 122),1)
+            case 'jogadorC':
+                return Player('jogadorC', (10, WIN_HEIGHT - 122),1)
             case 'enemyA1':
                 chance_de_pular = random.choice((True,False))
                 return Enemy('enemyA', (WIN_WIDTH-50, WIN_HEIGHT - 122),1,can_jump=chance_de_pular)

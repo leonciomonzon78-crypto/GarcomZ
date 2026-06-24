@@ -5,6 +5,7 @@ from code.Const import MENU_PLAYER, WIN_HEIGHT, IMA_SEP_MEA, MENU_OPTION
 
 class PlayerChoiceMenu:
     def __init__(self,window):
+        self.rect = None
         self.window = window
         self.fundo = pygame.image.load('./asset/MenuEscolha.png').convert_alpha()
         self.fundo_rect = self.fundo.get_rect(left=0, top=0)
@@ -19,16 +20,20 @@ class PlayerChoiceMenu:
 
             for i in range(len(MENU_PLAYER)):
                 imagen_jogador = pygame.image.load('./asset/'+MENU_PLAYER[i]+'.png').convert_alpha()
+                posicao_central_x = (IMA_SEP_MEA + (i * IMA_SEP_MEA)) + (imagen_jogador.get_width() // 2)
+                posicao_central_y = (WIN_HEIGHT / 2) + (imagen_jogador.get_height() // 2)
 
                 if i == self.index_selecionado:
+                    # Aumenta a imagem em 1.5x
                     imagen_jogador = pygame.transform.scale(imagen_jogador, (int(imagen_jogador.get_width() * 1.5),
                                                                    int(imagen_jogador.get_height() * 1.5)))
-                    self.rect = imagen_jogador.get_rect(left=IMA_SEP_MEA + (i * IMA_SEP_MEA), top=WIN_HEIGHT / 2)
+                    
+                    # 2. Em vez de usar 'left', posicionamos usando 'center' com o ponto central fixo!
+                    self.rect = imagen_jogador.get_rect(center=(posicao_central_x, posicao_central_y))
 
-                    #self.window.blit(source=self.surf, dest=self.rect)
                 else:
-                    #self.surf = pygame.image.load(MENU_PLAYER[i]).convert_alpha()
-                    self.rect = imagen_jogador.get_rect(left=IMA_SEP_MEA+(i*IMA_SEP_MEA), top=WIN_HEIGHT/2)
+                    # 3. Para os personagens não selecionados, também ancoramos pelo centro fixo
+                    self.rect = imagen_jogador.get_rect(center=(posicao_central_x, posicao_central_y))
 
                 self.window.blit(source=imagen_jogador, dest=self.rect)
 

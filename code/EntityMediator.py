@@ -46,6 +46,10 @@ class EntityMediator:
             valid_interaction = True
         elif isinstance(ent1, Enemy) and isinstance(ent2, Player):
             valid_interaction = True
+        elif isinstance(ent1, Player) and isinstance(ent2, Vitima):
+            valid_interaction = True
+        elif isinstance(ent1, Vitima) and isinstance(ent2, Player):
+            valid_interaction = True
 
         if valid_interaction:
             if (ent1.rect.right >= ent2.rect.left and
@@ -99,6 +103,15 @@ class EntityMediator:
                     ent2.health = 0  # O tiro do jogador some
                     if ent2.health <=0:
                         level_ref.vitimas_mortas +=1
+
+                #calculo : Vitima vs Player
+                elif isinstance(ent1, Player) and isinstance(ent2, Vitima):
+                    ent2.health = 0  # Faz a vítima sumir da tela
+                    level_ref.vitimas_salvas += 1  # Conta como salva!
+
+                elif isinstance(ent1, Vitima) and isinstance(ent2, Player):
+                    ent1.health = 0
+                    level_ref.vitimas_salvas += 1
 
                 # REGRA GERAL: Para todo o resto (Ex: PlayerShot vs Enemy)
                 else:
