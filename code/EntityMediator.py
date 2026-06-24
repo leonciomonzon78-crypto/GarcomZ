@@ -28,7 +28,7 @@ class EntityMediator:
                 ent.health = 0
 
     @staticmethod
-    def __verify_collision_entity(ent1, ent2):
+    def __verify_collision_entity(ent1, ent2, entity_list: list[Entity], level_ref=None):
         valid_interaction = False
         if isinstance(ent1, Enemy) and isinstance(ent2, PlayerShot):
             valid_interaction = True
@@ -90,26 +90,46 @@ class EntityMediator:
                     ent2.health -= ent1.damage  # A vítima perde vida
                     ent2.last_dmg = ent1.name
                     ent1.health = 0  # O tiro do jogador some
+                    if ent2.health <=0:
+                        level_ref.vitimas_mortas +=1
 
                 elif isinstance(ent1, Vitima) and isinstance(ent2, PlayerShot):
                     ent1.health -= ent2.damage  # A vítima perde vida
                     ent1.last_dmg = ent2.name
                     ent2.health = 0  # O tiro do jogador some
+                    if ent2.health <=0:
+                        level_ref.vitimas_mortas +=1
 
                 # REGRA GERAL: Para todo o resto (Ex: PlayerShot vs Enemy)
                 else:
                     ent1.health -= ent2.damage
                     ent2.health -= ent1.damage
                     ent1.last_dmg = ent2.name
+                    ent2.last_dmg = ent1.name
+                    if isinstance(ent1,Enemy) and isinstance(ent2,PlayerShot):
+                        if ent1.health <= 0:
+                            EntityMediator.__give_score(entity_list)
+                    elif isinstance(ent2,Enemy) and isinstance(ent1,PlayerShot):
+                        if ent2.health <= 0:
+                            EntityMediator.__give_score(entity_list)
+
 
     @staticmethod
-    def verify_collision(entity_list: list[Entity]):
+    def __give_score(entity_list :list[Entity]):
+        for ent in entity_list:
+            if isinstance(ent,Player):
+                if hasattr(ent,'score'):
+                    ent.score += 1
+
+
+    @staticmethod
+    def verify_collision(entity_list: list[Entity],level_ref):
         for i in range(len(entity_list)):
             entity1 = entity_list[i]
             EntityMediator.__verify_collision_window(entity1)
             for j in range(i + 1, len(entity_list)):
                 entity2 = entity_list[j]
-                EntityMediator.__verify_collision_entity(entity1, entity2)
+                EntityMediator.__verify_collision_entity(entity1, entity2,entity_list,level_ref)
 
     @staticmethod
     def verify_health(entity_list: list[Entity]):

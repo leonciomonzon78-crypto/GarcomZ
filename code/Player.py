@@ -11,6 +11,7 @@ class Player(Entity):
         super().__init__(name,position,1)
         self.index= str(ani_index)
         self.shot_delay = ENTITY_SHOT_DELAY[self.name]
+        self.score = 0
         #ANIMAÇÃO
 
         self.animation_frames=[]
