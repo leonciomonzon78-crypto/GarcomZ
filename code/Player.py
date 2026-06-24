@@ -38,6 +38,8 @@ class Player(Entity):
         self.damaged_timer = 0  #guarda o momento do dano
         self.is_blinking = False #diz se o jogador está no estado de brilho
         self.blink_duration = 2000  #duração do brilho em milissegundo
+        self.sound_shoot = pygame.mixer.Sound('./asset/PlayerShot.mp3')
+        self.sound_shoot.set_volume(0.4)
 
 
 
@@ -91,6 +93,7 @@ class Player(Entity):
             self.shot_delay = ENTITY_SHOT_DELAY[self.name]
             pressed_key = pygame.key.get_pressed()
             if pressed_key[PLAYER_KEY_SHOOT[self.name + self.index]]:
+                self.sound_shoot.play()
                 return PlayerShot(name='TiroDejogador', position=(self.rect.centerx, self.rect.centery-20), ani_index=0)
 
 

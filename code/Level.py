@@ -55,16 +55,21 @@ class Level:
 
                 self.window.blit(source=self.surf, dest=self.rect)
                 self.level_text(200, 'YOU WIN !!', C_WHITE, (WIN_WIDTH / 2 -400, WIN_HEIGHT / 2 - 100))
-                self.level_text(50, f'Você rescatou {self.vitimas_salvas} clientes', C_WHITE, (WIN_WIDTH / 2 - 400, WIN_HEIGHT / 2 - 150))
+                self.level_text(50, f'Você resgatou {self.vitimas_salvas} clientes', C_WHITE, (WIN_WIDTH / 2 - 400, WIN_HEIGHT / 2 - 150))
 
                 if jogador_atual is not None:
-                    self.level_text(50, f'Você matou {jogador_atual.score} zumbies', C_WHITE,
+                    self.level_text(50, f'Você matou {jogador_atual.score} zumbis', C_WHITE,
                                     (WIN_WIDTH / 2 - 400, WIN_HEIGHT / 2 - 200))
+                    self.level_text(50, 'Pressione ENTER para voltar ao menu', C_WHITE, (WIN_WIDTH / 2 - 400, WIN_HEIGHT - 122))
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         quit()
+
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            return
                 pygame.display.flip()
                 continue
 

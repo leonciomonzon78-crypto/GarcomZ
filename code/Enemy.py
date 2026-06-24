@@ -16,6 +16,8 @@ class Enemy(Entity):
         self.can_jump = can_jump
         #sistema de animação de pés
         self.animation_frames = []
+        self.sound_walk = pygame.mixer.Sound('./asset/zumbi.mp3')
+        self.sound_walk.set_volume(0.3)
         # carregar as 3 imagens
         for i in range(1):
             frame = pygame.image.load(f'./asset/{name}{i}.png').convert_alpha()
@@ -33,6 +35,8 @@ class Enemy(Entity):
 
     def move(self):
         self.rect.centerx -= self.entity_speed #movimento do enemies de direita a esquerda
+        if self.sound_walk.get_num_channels()== 0:
+            self.sound_walk.play()
 
         #logica de sorteio de pulo
         if self.can_jump and not self.is_jumping:#o sorteio do pulo só acontece se o enemy tiver a permissão can_jump
