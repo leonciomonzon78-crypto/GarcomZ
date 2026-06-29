@@ -20,8 +20,8 @@ class PlayerChoiceMenu:
 
             for i in range(len(MENU_PLAYER)):
                 imagen_jogador = pygame.image.load('./asset/'+MENU_PLAYER[i]+'.png').convert_alpha()
-                posicao_central_x = (IMA_SEP_MEA + (i * IMA_SEP_MEA)) + (imagen_jogador.get_width() // 2)
-                posicao_central_y = (WIN_HEIGHT / 2) + (imagen_jogador.get_height() // 2)
+                posicao_central_x = (IMA_SEP_MEA + (i * IMA_SEP_MEA)) + (imagen_jogador.get_width()-200 )
+                posicao_central_y = (WIN_HEIGHT -380) + (imagen_jogador.get_height() // 2)
 
                 if i == self.index_selecionado:
                     # Aumenta a imagem em 1.5x

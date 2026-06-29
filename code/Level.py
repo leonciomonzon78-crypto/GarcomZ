@@ -95,6 +95,17 @@ class Level:
             EntityMediator.verify_collision(entity_list=self.entity_list,level_ref=self)
             EntityMediator.verify_health(entity_list=self.entity_list)
 
+            player_alive = False
+            for ent in self.entity_list:
+                if isinstance(ent, Player):
+                    player_alive = True
+                    break
+
+            if not player_alive:
+                self.show_lose_screen()
+
+                return  # Retorna para o Game.py
+
 
             novos_tiros = []
 
@@ -136,5 +147,22 @@ class Level:
         text_surf: Surface = text_font.render(text, True, text_color)
         text_rect: Rect = text_surf.get_rect(left=text_pos[0], top=text_pos[1])
         self.window.blit(source=text_surf, dest=text_rect)
+
+    def show_lose_screen(self):
+        while True:
+            self.window.blit(source=self.surf, dest=self.rect)
+            self.level_text(200, 'YOU LOSE !!', C_WHITE, (WIN_WIDTH / 2 - 400, WIN_HEIGHT / 2 - 100))
+            self.level_text(30, 'Pressione ENTER para voltar ao menu', C_WHITE,
+                            (WIN_WIDTH / 2 - 250, WIN_HEIGHT / 2 + 100))
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        return  # Volta ao início
+
+            pygame.display.flip()
 
 

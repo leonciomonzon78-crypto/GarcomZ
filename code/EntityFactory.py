@@ -13,16 +13,16 @@ class EntityFactory:
     def get_entity(entity_name:str, position=(0, 0),ani_index=0):
         match entity_name:
             case 'JogadorA':
-                return Player('jogadorA', (10,WIN_HEIGHT-122),1)
+                return Player('jogadorA', (10,WIN_HEIGHT-180),1)
             case 'jogadorB':
-                return Player('jogadorB', (10, WIN_HEIGHT - 122),1)
+                return Player('jogadorB', (10, WIN_HEIGHT - 180),1)
             case 'jogadorC':
-                return Player('jogadorC', (10, WIN_HEIGHT - 122),1)
+                return Player('jogadorC', (10, WIN_HEIGHT - 180),1)
             case 'enemyA1':
                 chance_de_pular = random.choice((True,False))
-                return Enemy('enemyA', (WIN_WIDTH-50, WIN_HEIGHT - 122),1,can_jump=chance_de_pular)
+                return Enemy('enemyA', (WIN_WIDTH-50, WIN_HEIGHT - 180),1,can_jump=chance_de_pular)
             case 'enemyB1':
-                return Enemy('enemyB', (WIN_WIDTH-50, WIN_HEIGHT - 122), 1)
+                return Enemy('enemyB', (WIN_WIDTH-50, WIN_HEIGHT - 180), 1)
             case 'vitima0':
-                return Vitima('vitima', (WIN_WIDTH - 50, WIN_HEIGHT - 122), 0)
+                return Vitima('vitima', (WIN_WIDTH - 50, WIN_HEIGHT - 180), 0)
 

@@ -19,7 +19,7 @@ class Menu:
         while True:
 
             self.window.blit(source=self.surf, dest=self.rect)
-            self.menu_text(text_size=130,text="COMEÇAR",text_color=C_YELLOW,text_center_pos=(WIN_WIDTH // 2, 495))
+            self.menu_text(text_size=100,text="COMEÇAR",text_color=C_YELLOW,text_center_pos=(WIN_WIDTH // 2, 370))
             pygame.display.flip()
 
             # check all event
